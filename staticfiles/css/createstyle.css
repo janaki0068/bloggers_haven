@@ -1,0 +1,89 @@
+/* Container */
+.form-container {
+    max-width: 600px;
+    margin: 50px auto;
+    background: #fff;
+    padding: 30px 40px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+}
+
+/* Form title */
+.form-title {
+    font-size: 28px;
+    color: #e75480;
+    margin-bottom: 25px;
+    text-align: center;
+    font-family: 'Pacifico', cursive;
+}
+
+/* Inputs and textarea */
+input[type="text"], select, textarea, input[type="file"] {
+    width: 100%;
+    padding: 12px 15px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 15px;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+input[type="text"]:focus,
+select:focus,
+textarea:focus {
+    border-color: #e75480;
+}
+
+/* Publish button */
+button.sidebar-btn {
+    display: inline-block;
+    background-color: #ff4f8b;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 10px 18px;
+    font-weight: 500;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button.sidebar-btn:hover {
+    background-color: #e0437a;
+    transform: translateY(-2px);
+}
+
+/* Back button styling */
+.back-btn-container {
+    text-align: center;
+    margin-top: 25px;
+}
+
+/* Success message */
+.success-msg {
+    background-color: #d4edda;
+    color: #155724;
+    padding: 12px 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-weight: 500;
+    border: 1px solid #c3e6cb;
+}
+
+.back-btn {
+    background-color: #ff4f8b;   /* pink */
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 10px 18px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.back-btn:hover {
+    background-color: #e0437a;
+    transform: translateY(-2px);
+}

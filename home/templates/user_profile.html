@@ -1,0 +1,65 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ profile_user.username }} | Blogger's Haven</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+
+    <!-- Your CSS -->
+    <link rel="stylesheet" href="{% static 'css/userprofile.css' %}">
+</head>
+<body>
+
+<div class="profile-container">
+
+    <!-- Back Button -->
+    {% if next_url %}
+        <a href="{{ next_url }}" class="back-btn">← Back</a>
+    {% else %}
+        <a href="{% url 'dashboard' %}" class="back-btn">← Back</a>
+    {% endif %}
+
+    <!-- Profile Card -->
+    <div class="profile-card">
+        {% if profile_user.profile.profile_picture %}
+            <img src="{{ profile_user.profile.profile_picture.url }}" class="profile-avatar">
+        {% else %}
+            <div class="profile-avatar default-avatar">
+                {{ profile_user.username|first|upper }}
+            </div>
+        {% endif %}
+
+        <h2>{{ profile_user.username }}</h2>
+        {% if profile_user.profile.bio %}
+            <p class="bio">{{ profile_user.profile.bio }}</p>
+        {% else %}
+            <p class="bio">This user hasn’t added a bio yet. 😄</p>
+        {% endif %}
+
+        {% if request.user == profile_user %}
+        <a href="{% url 'edit_bio' %}" class="edit-bio-btn">✏️ Edit Bio</a>
+    {% endif %}
+
+        <hr>
+
+        <h3>Articles by {{ profile_user.username }}</h3>
+        <div class="articles-list">
+            {% for article in articles %}
+                <a href="{% url 'article_detail' article.id %}" class="article-link">
+                    {{ article.title }}
+                </a>
+            {% empty %}
+                <p>No articles yet.</p>
+            {% endfor %}
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,55 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Blogger's Haven</title>
+    <link rel="stylesheet" href="{% static 'css/dashstyle.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="dashboard">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <h3>Blogger's Haven</h3>
+
+        <button onclick="window.location.href='{% url 'create_post' %}'">
+            + New Post
+        </button>
+
+        <ul>
+
+            <li>
+                <form action="{% url 'dashboard' %}" method="get" style="display:inline;">
+                    <button type="submit" class="sidebar-btn">Dashboard</button>
+                </form>
+            </li>
+
+            <li class="logout-item">
+    <form action="{% url 'logout' %}" method="post" onsubmit="return confirmLogout();">
+        {% csrf_token %}
+        <button type="submit" class="logout-btn">Logout</button>
+    </form>
+</li>
+
+<script>
+function confirmLogout() {
+    return confirm("Are you sure you want to logout? 🥺");
+}
+</script>
+
+        </ul>
+    </aside>
+
+ 
+    <div class="dash-content">
+        {% block content %}
+        {% endblock %}
+    </div>
+
+</div>
+
+</body>
+</html>

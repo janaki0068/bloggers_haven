@@ -1,0 +1,113 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard | Blogger's Haven</title>
+    <link rel="stylesheet" href="{% static 'css/dashstyle.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="dashboard">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <h3>Blogger's Haven</h3>
+        <button onclick="window.location.href='{% url 'create_post' %}'">
+            + New Post
+        </button>
+        <ul>
+            <li>
+                <form action="{% url 'my_blogs' %}" method="get">
+                    <button type="submit" class="sidebar-btn">My Blogs</button>
+                </form>
+            </li>
+            <li>
+                <form action="{% url 'categories' %}" method="get">
+                    <button type="submit" class="sidebar-btn">Categories</button>
+                </form>
+            </li>
+            <li>
+                <form action="{% url 'logout' %}" method="post" onsubmit="return confirmLogout();">
+                    {% csrf_token %}
+                    <button type="submit" class="logout-btn">Logout</button>
+                </form>
+            </li>
+        </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="dash-content">
+
+        <!-- Top bar with user dropdown -->
+        <div class="top-bar">
+            <div class="user-dropdown" id="userDropdown">
+                {% if request.user.profile.profile_picture %}
+                    <img src="{{ request.user.profile.profile_picture.url }}" class="avatar" id="dropdownToggle">
+                {% else %}
+                    <div class="avatar default-avatar" id="dropdownToggle">
+                        {{ request.user.username|first|upper }}
+                    </div>
+                {% endif %}
+                <span class="username" id="dropdownToggle">{{ request.user.username }}</span>
+
+                <div class="dropdown-menu" id="dropdownMenu">
+                    <a href="{% url 'user_profile' request.user.username %}">Profile</a>
+                    <form action="{% url 'logout' %}" method="post" class="logout-form" onsubmit="return confirm('Are you sure you want to logout?');">
+                        {% csrf_token %}
+                        <button type="submit">Logout</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <h2>Welcome to your Dashboard</h2>
+
+<!-- Articles Grid wrapped in scrollable container -->
+<div class="posts-container">
+    <div class="posts-grid">
+        {% for article in articles %}
+            <div class="post-card">
+                {% if article.image %}
+                    <a href="{% url 'article_detail' article.id %}?next={{ request.get_full_path }}">
+                        <img src="{{ article.image.url }}" class="post-image">
+                    </a>
+                {% endif %}
+                <h3 class="post-title">
+                    <a href="{% url 'article_detail' article.id %}?next={{ request.get_full_path }}">
+                        {{ article.title }}
+                    </a>
+                </h3>
+                <p class="post-content">{{ article.content|truncatewords:20 }}</p>
+            </div>
+        {% empty %}
+            <p class="no-posts">No posts yet.</p>
+        {% endfor %}
+    </div>
+</div>
+</div>
+
+<!-- JS for dropdown -->
+<script>
+    const dropdown = document.getElementById('userDropdown');
+    const toggle = document.getElementById('dropdownToggle');
+    const menu = document.getElementById('dropdownMenu');
+
+    toggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        dropdown.classList.toggle('active');
+    });
+
+    document.addEventListener('click', () => {
+        dropdown.classList.remove('active');
+    });
+
+    function confirmLogout() {
+        return confirm("Are you sure you want to logout? 🥺");
+    }
+</script>
+
+</body>
+</html>

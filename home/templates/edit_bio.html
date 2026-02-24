@@ -1,0 +1,18 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <title>Edit Bio | Blogger's Haven</title>
+</head>
+<body>
+    <div class="form-container">
+        <h2>Edit Your Bio</h2>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="submit-btn">Save</button>
+        </form>
+    </div>
+</body>
+</html>

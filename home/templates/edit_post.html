@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}Edit Post{% endblock %}
+
+{% block content %}
+<h2 class="section-title">Edit Post</h2>
+
+<div class="form-container">
+    <form method="POST" enctype="multipart/form-data" class="edit-post-form">
+        {% csrf_token %}
+        
+        <!-- Form fields styled as soft boxes -->
+        {{ form.as_p }}
+
+        <!-- Buttons -->
+        <div class="form-buttons">
+            <button type="submit" class="action-btn">Update Post</button>
+            <a href="{% url 'my_blogs' %}" class="action-btn">Back to My Blogs</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

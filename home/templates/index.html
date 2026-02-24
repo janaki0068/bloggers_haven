@@ -1,0 +1,116 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blogger's Haven</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+    <!-- navbar -->
+    <nav class="navbar">
+        <h1>Blogger's Haven</h1>
+        <div>
+            <a href="#">Home</a>
+            <a href="#" id="signupBtn">Signup</a>
+            <a href="#" id="loginBtn">Login</a>
+            <button id="themeToggle" class="theme-btn">🌙 Dark Mode</button>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-text">
+            <h2>Welcome to Blogger's Haven</h2>
+            <p>Don't let the good days slip away. Capture them here, and hold onto them forever.</p>
+        </div>
+
+        <div class="hero-image">
+            <img src="{% static 'images/pic.jpeg' %}" alt="">
+        </div>
+    </section>
+
+    <section class="trending">
+    <h2>Trending Blogs 💖</h2>
+    <div class="trending-container">
+        {% for post in trending_posts %}
+            <div class="trending-card">
+                {% if post.image %}
+                    <img src="{{ post.image.url }}" alt="{{ post.title }}">
+                {% else %}
+                    <img src="{% static 'images/blogg.jpeg' %}" alt="Default Image">
+                {% endif %}
+                <div class="trending-content">
+                    <span class="category-badge">{{ post.category.name }}</span>
+                    <h3>{{ post.title }}</h3>
+                    <p>{{ post.content|truncatewords:20 }}</p>
+                    <a href="{% url 'article_detail' post.id %}" class="read-more">Read More</a>
+                </div>
+            </div>
+        {% empty %}
+            <p style="text-align:center;">No trending blogs available.</p>
+        {% endfor %}
+    </div>
+</section>
+
+
+
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal hidden">
+        <div class="modal-content">
+            <h3>Login</h3>
+            <form method="POST" action="{% url 'login' %}">
+                {% csrf_token %}
+                <input type="text" name="username" placeholder="Username" required>
+                <input type="password" name="password" placeholder="Password" required>
+                <button type="submit">Login</button>
+            </form>
+            <button class="close" onclick="closeModal()">Close</button>
+        </div>
+    </div>
+
+    <!-- Signup Modal -->
+    <div id="signupModal" class="modal hidden">
+        <div class="modal-content">
+            <h3>Sign Up</h3>
+            <form method="POST" action="{% url 'signup' %}">
+                {% csrf_token %}
+                <input type="text" name="username" placeholder="Username" required />
+                <input type="email" name="email" placeholder="Email" required />
+                <input type="password" name="password" placeholder="Password" required />
+                <input type="password" name="confirm_password" placeholder="Confirm Password" required />
+                <button type="submit">Create Account</button>
+            </form>
+            <button class="close" onclick="closeSignup()">Close</button>
+        </div>
+    </div>
+
+    <!-- JS -->
+    <script src="{% static 'js/min.js' %}"></script>
+    <script>
+const toggleBtn = document.getElementById('themeToggle');
+const body = document.body;
+
+// Load saved theme preference
+if (localStorage.getItem('theme') === 'dark') {
+    body.classList.add('dark-mode');
+    toggleBtn.textContent = '☀️ Light Mode';
+}
+
+toggleBtn.addEventListener('click', () => {
+    body.classList.toggle('dark-mode');
+    if (body.classList.contains('dark-mode')) {
+        toggleBtn.textContent = '☀️ Light Mode';
+        localStorage.setItem('theme', 'dark');
+    } else {
+        toggleBtn.textContent = '🌙 Dark Mode';
+        localStorage.setItem('theme', 'light');
+    }
+});
+</script>
+
+</body>
+</html>

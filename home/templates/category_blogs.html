@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ category.name }} Blogs{% endblock %}
+
+{% block content %}
+
+<h2 class="section-title">{{ category.name }} Blogs</h2>
+
+<div class="posts-grid">
+    {% for blog in blogs %}
+        <div class="post-card">
+            {% if blog.image %}
+                <img src="{{ blog.image.url }}" class="post-image">
+            {% endif %}
+
+            <h3 class="post-title">{{ blog.title }}</h3>
+            <p class="post-meta">{{ blog.created_at|date:"M d, Y" }}</p>
+            <p class="post-content">{{ blog.content|truncatewords:30 }}</p>
+        </div>
+    {% empty %}
+        <p class="empty-msg">No blogs found in this category.</p>
+    {% endfor %}
+</div>
+<br>
+<br>
+<form action="{% url 'categories' %}" method="get">
+    <button type="submit" class="back-btn">← Back to Categories</button>
+</form>
+{% endblock %}

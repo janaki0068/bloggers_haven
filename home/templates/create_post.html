@@ -1,0 +1,44 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Create Post | Blogger's Haven</title>
+<link rel="stylesheet" href="{% static 'css/createstyle.css' %}">
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="form-container">
+    <h2 class="form-title">Create New Post</h2>
+
+    <!-- Success message -->
+    {% if messages %}
+        {% for message in messages %}
+            <div class="success-msg">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+
+    <form method="POST" action="{% url 'create_post' %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="text" name="title" placeholder="Title" required>
+        <select name="category" required>
+            <option value="">Select Category</option>
+            {% for cat in categories %}
+                <option value="{{ cat.id }}">{{ cat.name }}</option>
+            {% endfor %}
+        </select>
+        <textarea name="content" placeholder="Write your post..." rows="6" required></textarea>
+        <input type="file" name="image">
+        <button type="submit" class="sidebar-btn">Publish</button>
+    </form>
+
+    <!-- Back button -->
+    <form action="{% url 'dashboard' %}" method="get" class="back-btn-container">
+        <button type="submit" class="back-btn">← Back to Dashboard</button>
+    </form>
+</div>
+
+</body>
+</html>

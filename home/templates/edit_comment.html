@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block title %}Edit Comment{% endblock %}
+{% block content %}
+<div class="form-container">
+    <h2>Edit Comment</h2>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="action-btn">Update Comment</button>
+        <a href="{{ previous_url }}" class="action-btn">Cancel</a>
+    </form>
+</div>
+{% endblock %}

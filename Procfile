@@ -1,0 +1,1 @@
+web: gunicorn bloggers_haven.wsgi

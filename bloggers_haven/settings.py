@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-q=%tcq+6$f$pjgled*6r%f16_vu1u$5ns4mt!hvy74yt)88j=3
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['bloggers-haven-lw3i.onrender.com', '127.0.0.1', 'localhost']
 
 
 # Application definition
@@ -114,20 +114,30 @@ USE_I18N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.2/howto/static-files/
+# Static Files
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [BASE_DIR / 'home/static']
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
-STATIC_URL = 'static/'
-
+# Media Files
 MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 
-if DEBUG:
-    STATICFILES_DIRS = [BASE_DIR / 'home/static']
 
-else:
-    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+# Cloudinary Configuration (Only in Production)
+if not DEBUG:
+    INSTALLED_APPS += [
+        'cloudinary',
+        'cloudinary_storage',
+    ]
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'static')
+    CLOUDINARY_STORAGE = {
+        'CLOUD_NAME': os.getenv('CLOUDINARY_CLOUD_NAME'),
+        'API_KEY': os.getenv('CLOUDINARY_API_KEY'),
+        'API_SECRET': os.getenv('CLOUDINARY_API_SECRET'),
+    }
+
+    DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 LOGIN_REDIRECT_URL = '/dashboard/'
 
@@ -140,17 +150,3 @@ LOGIN_REDIRECT_URL = '/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-INSTALLED_APPS += [
-    'cloudinary',
-    'cloudinary_storage',
-]
-
-CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': os.getenv('CLOUDINARY_CLOUD_NAME'),
-    'API_KEY': os.getenv('CLOUDINARY_API_KEY'),
-    'API_SECRET': os.getenv('CLOUDINARY_API_SECRET'),
-}
-
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-
-MEDIA_URL = f'https://res.cloudinary.com/{os.getenv("CLOUDINARY_CLOUD_NAME")}/'
